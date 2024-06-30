@@ -1,0 +1,22 @@
+
+spring:
+  application:
+    name: moneymanager
+
+  datasource:
+    url: jdbc:postgresql://moneymanager-postgres:5432/moneymanager-db
+    username: myuser
+    password: mypassword
+
+  rabbitmq:
+    host: moneymanager-rabbitmq
+    port: 5672
+    username: myuser
+    password: mypassword
+
+  mongodb:
+    host: moneymanager-mongodb
+    port: 27017
+    database: moneymanager
+    username: myuser
+    password: mypassword
