@@ -14,9 +14,10 @@ spring:
     username: myuser
     password: mypassword
 
-  mongodb:
-    host: moneymanager-mongodb
-    port: 27017
-    database: moneymanager
-    username: myuser
-    password: mypassword
+  data:
+    mongodb:
+      host: moneymanager-mongodb
+      port: 27017
+      database: moneymanager
+      username: myuser
+      password: mypassword
