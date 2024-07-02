@@ -1,10 +1,10 @@
-version: '4'
+version: '3.9'
 
 services:
   moneymanager-postgres:
     image: 'postgres:15.7-alpine'
     container_name: moneymanager-db
-    restart: always
+    restart: on-failure
     expose:
       - 5432
     ports:
@@ -21,23 +21,30 @@ services:
   moneymanager-rabbitmq:
     image: rabbitmq
     container_name: moneymanager-rabbitmq
-    restart: always
+    restart: on-failure
     hostname: moneymanager-rabbitmq
     expose:
       - 5672
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 15672
     environment:
       RABBITMQ_DEFAULT_USER: myuser
       RABBITMQ_DEFAULT_PASS: mypassword
     networks:
       - money_manager_net
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   moneymanager-mongo:
     image: mongo:latest
     container_name: "moneymanager-mongo"
     hostname: moneymanager-mongodb
+    restart: on-failure
     expose:
       - 27017
     ports:
@@ -59,8 +66,9 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - moneymanager-postgres
-      - moneymanager-mongo
+      moneymanager-rabbitmq:
+        condition: service_healthy
+    links:
       - moneymanager-rabbitmq
     networks:
       - money_manager_net
