@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import souza.marlon.moneymanager.domain.UserEntity;
 import souza.marlon.moneymanager.dto.UserDto;
 import souza.marlon.moneymanager.exception.BadRequestException;
-import souza.marlon.moneymanager.mapper.UserConverterImpl;
+import souza.marlon.moneymanager.converter.UserConverterImpl;
 import souza.marlon.moneymanager.repository.UserRespository;
 
 import java.util.List;

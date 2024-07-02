@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import souza.marlon.moneymanager.domain.TransactionCategory;
 import souza.marlon.moneymanager.dto.TransactionDto;
 import souza.marlon.moneymanager.dto.TransactionResponse;
+import souza.marlon.moneymanager.dto.TransferDto;
 import souza.marlon.moneymanager.service.TransactionService;
 
 @RestController
@@ -25,10 +27,20 @@ public class TransferController {
     }
 
     @PostMapping
-    public TransactionResponse send(@RequestBody @Valid TransactionDto dto){
-        transactionService.transfer(dto);
+    public TransactionResponse send(@RequestBody @Valid TransferDto dto){
+        transactionService.transfer(getTransactionDto(dto));
         rabbitTemplate.convertAndSend("transactionEntry", dto);
         return new TransactionResponse("Transaction completed successfully.");
+    }
+
+    private static TransactionDto getTransactionDto(TransferDto dto) {
+        return new TransactionDto(
+                dto.description(),
+                dto.payer(),
+                dto.payee(),
+                TransactionCategory.TRANSFER,
+                dto.value()
+        );
     }
 
 }

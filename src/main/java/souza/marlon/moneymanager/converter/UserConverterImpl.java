@@ -1,4 +1,4 @@
-package souza.marlon.moneymanager.mapper;
+package souza.marlon.moneymanager.converter;
 
 import org.springframework.stereotype.Component;
 import souza.marlon.moneymanager.dto.UserDto;

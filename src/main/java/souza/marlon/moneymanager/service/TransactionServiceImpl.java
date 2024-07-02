@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import souza.marlon.moneymanager.dto.TransactionDto;
 import souza.marlon.moneymanager.exception.BadRequestException;
-import souza.marlon.moneymanager.mapper.TransactionConverterImpl;
+import souza.marlon.moneymanager.converter.TransactionConverterImpl;
 import souza.marlon.moneymanager.repository.TransactionRepository;
 
 @Service

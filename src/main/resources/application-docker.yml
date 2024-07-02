@@ -21,3 +21,4 @@ spring:
       database: moneymanager
       username: myuser
       password: mypassword
+      authentication-database: admin

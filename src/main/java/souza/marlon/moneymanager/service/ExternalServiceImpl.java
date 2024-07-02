@@ -34,7 +34,7 @@ public class ExternalServiceImpl implements ExternalService {
 
     @Override
     public void sendNotification() {
-        var response = restTemplate.postForEntity("https://util.devi.tools/api/v2/authorize", new NotificationRequestDto(), String.class);
+        var response = restTemplate.postForEntity("https://util.devi.tools/api/v1/notify", new NotificationRequestDto(), String.class);
 
         if (response.getStatusCode() != HttpStatus.OK){
             throw new BadRequestException("Notification is not working!");

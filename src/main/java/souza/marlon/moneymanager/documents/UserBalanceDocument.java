@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-@Document(collation = "users_balance")
+@Document("users_balance")
 public class UserBalanceDocument {
 
     @Id

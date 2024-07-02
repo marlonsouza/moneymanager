@@ -19,3 +19,6 @@ spring:
       host: localhost
       port: 27017
       database: moneymanager
+      username: myuser
+      password: mypassword
+      authentication-database: admin

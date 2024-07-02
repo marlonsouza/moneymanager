@@ -1,15 +1,19 @@
 package souza.marlon.moneymanager.service;
 
+import jakarta.validation.constraints.NotNull;
 import souza.marlon.moneymanager.dto.TransactionDto;
 import souza.marlon.moneymanager.dto.UserBalanceDto;
-import souza.marlon.moneymanager.dto.UserDto;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.UUID;
 
 public interface UserBalanceService {
     void updateBalance(TransactionDto transaction);
 
-    boolean haveBalance(UserDto payer, BigDecimal value);
+    boolean haveBalance(@NotNull UUID payer, BigDecimal value);
 
     UserBalanceDto createBalance(UserBalanceDto userBalanceDto);
+
+    List<UserBalanceDto> getBalance();
 }
