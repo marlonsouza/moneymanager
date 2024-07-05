@@ -1,15 +1,14 @@
 package souza.marlon.moneymanager.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import souza.marlon.moneymanager.converter.UserBalanceConverterImpl;
 import souza.marlon.moneymanager.documents.UserBalanceDocument;
 import souza.marlon.moneymanager.domain.TransactionType;
-import souza.marlon.moneymanager.domain.UserEntity;
 import souza.marlon.moneymanager.dto.TransactionDto;
 import souza.marlon.moneymanager.dto.UserBalanceDto;
+import souza.marlon.moneymanager.exception.BadRequestException;
 import souza.marlon.moneymanager.repository.UserBalanceRepository;
 
 import java.math.BigDecimal;
@@ -38,16 +37,16 @@ public class UserBalanceServiceImpl implements UserBalanceService {
         var payee = userService.getUser(transaction.payee());
 
         userBalanceRepository.findById(payee.getId())
-            .ifPresent(userBalanceDocument -> updateUserBalance(userBalanceDocument, transaction.value(), TransactionType.DEBIT));
+            .ifPresent(userBalanceDocument -> updateUserBalance(userBalanceDocument, transaction.value(), TransactionType.CREDIT));
 
         userBalanceRepository.findById(payer.getId())
-            .ifPresent(p -> updateUserBalance(p, transaction.value(), TransactionType.CREDIT));
+            .ifPresent(p -> updateUserBalance(p, transaction.value(), TransactionType.DEBIT));
 
     }
 
     @Override
     public boolean haveBalance(@NotNull UUID payer, BigDecimal value) {
-        var byId = userBalanceRepository.findById(payer).orElseThrow(() -> new EntityNotFoundException("User balance not found"));
+        var byId = userBalanceRepository.findById(payer).orElseThrow(() -> new BadRequestException("User balance not found"));
         return byId.getValue().compareTo(value) >= 0;
     }
 

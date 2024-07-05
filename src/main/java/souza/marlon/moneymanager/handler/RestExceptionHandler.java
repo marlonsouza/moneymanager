@@ -21,14 +21,16 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final String CHECK_THE_FIELDS_ERROR = "Check the fields error";
+
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BadRequestExceptionDetails> handleBadRequestException(BadRequestException badRequestException) {
         var badRequestExceptionDetails = new BadRequestExceptionDetails();
         badRequestExceptionDetails.setTime(LocalDateTime.now());
         badRequestExceptionDetails.setStatus(HttpStatus.BAD_REQUEST.value());
+        badRequestExceptionDetails.setDetails(CHECK_THE_FIELDS_ERROR);
         badRequestExceptionDetails.setTitle("Bad Request Exception, Check the Documentation");
-        badRequestExceptionDetails.setDetails(badRequestException.getMessage());
-        badRequestExceptionDetails.setDeveloperMessage(badRequestExceptionDetails.getClass().getName());
+        badRequestExceptionDetails.setDeveloperMessage(badRequestException.getMessage());
         return new ResponseEntity<>(badRequestExceptionDetails, HttpStatus.BAD_REQUEST);
     }
 
@@ -40,7 +42,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(new ValidationExceptionDetails(
                 "Bad Request Exception, Invalid Fields",
                 HttpStatus.BAD_REQUEST.value(),
-                "Check the fields error",
+                CHECK_THE_FIELDS_ERROR,
                 ex.getClass().getName(),
                 LocalDateTime.now(),
                 fields,
@@ -54,7 +56,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         exceptionDetails.setTime(LocalDateTime.now());
         exceptionDetails.setStatus(statusCode.value());
         exceptionDetails.setTitle(ex.getMessage());
-        exceptionDetails.setDetails("Check the fields error");
+        exceptionDetails.setDetails(CHECK_THE_FIELDS_ERROR);
         exceptionDetails.setDeveloperMessage(ex.getClass().getName());
         return new ResponseEntity<>(exceptionDetails, headers, statusCode);
     }

@@ -35,7 +35,7 @@ public class TransactionQueueImpl implements RabbitQueue<TransactionDto> {
         key = ROUNTING_KEY
     ))
     public void receiveMessage(TransactionDto transactionDto) {
-        LOG.info("Message received: {}", transactionDto.description());
+        LOG.info("Transfer from : {} to : {}", transactionDto.payer(), transactionDto.payee());
         userBalanceService.updateBalance(transactionDto);
     }
 

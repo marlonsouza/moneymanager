@@ -2,13 +2,17 @@ package souza.marlon.moneymanager.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
+@EntityListeners(AuditingEntityListener.class)
 public class TransactionEntity {
 
     @Id
@@ -17,13 +21,20 @@ public class TransactionEntity {
 
     private String description;
 
+    @NotNull
     @ManyToOne
     private UserEntity payer;
 
+    @NotNull
     @ManyToOne
     private UserEntity payee;
 
     private TransactionCategory category;
+
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date", updatable = false, nullable = false)
+    private LocalDateTime createdDate;
 
     @NotNull
     private BigDecimal value;
@@ -99,5 +110,13 @@ public class TransactionEntity {
 
     public void setCategory(TransactionCategory category) {
         this.category = category;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 }
